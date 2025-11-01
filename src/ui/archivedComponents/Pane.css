@@ -1,0 +1,18 @@
+.resizer:hover {
+    background-color: var(--resizer-hover-color);
+}
+
+.resizer.left {
+    width: var(--resizer-width);
+    cursor: e-resize;
+}
+
+.resizer.right {
+    width: var(--resizer-width);;
+    cursor: w-resize;
+}
+
+.resizer.bottom {
+    height: var(--resizer-width);;
+    cursor: n-resize;
+}

@@ -1,7 +1,7 @@
 
 import { Box, Stack, styled } from "@mui/material"
 import type { ReactNode } from "react"
-import { ResizeModeEnums, type ResizeMode, type DirectionMap } from "../Types"
+import { ResizeModeEnums, type ResizeMode, type DirectionMap } from "../types"
 import "./Pane.css";
 
 interface Props {

@@ -3,16 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "dist-electron/main.js",
+  "main": "src/electron/main.cjs",
   "scripts": {
-    "dev": "npm-run-all --parallel dev:react dev:electron",
-    "dev:electron": "npm run transpile:electron; cross-env NODE_ENV=development electron .",
+    "dev:electron": "electronmon src/electron/main.cjs",
     "dev:react": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "dev": "npm-run-all --parallel  dev:electron dev:react",
     "preview": "vite preview",
-    "transpile:electron": "tsc --project src/electron/tsconfig.json",
-    "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64"
+    "build": "tsc -b && vite build",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@chakra-ui/react": "^3.26.0",
@@ -27,12 +25,16 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/node": "^24.10.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.2.1",
+    "cpx": "^1.5.0",
     "cross-env": "^7.0.3",
     "electron": "^36.4.0",
     "electron-builder": "^26.0.12",
+    "electronmon": "^2.0.4",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",

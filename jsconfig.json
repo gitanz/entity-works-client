@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "module": "commonjs",
+    "target": "ES2022",
+    "moduleResolution": "node"
+  },
+  "include": ["./**/*.js", "./**/*.cjs"]
+}

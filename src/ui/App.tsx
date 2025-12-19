@@ -1,12 +1,15 @@
 import { Provider } from './components/ui/provider'
 import './App.css'
 import "@vscode/codicons/dist/codicon.css"
-import RootContainer from './root/containers/RootContainer'
+import ShellContainer from './shell/ShellContainer'
+import ShellProvider from './shell/ShellContext'
 
 export default function App() {
   return (
     <Provider>
-      <RootContainer />
+      <ShellProvider layout="default" activatedModuleId="welcome">
+        <ShellContainer />  
+      </ShellProvider>
     </Provider>     
   )
 }

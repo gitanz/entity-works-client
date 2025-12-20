@@ -12,7 +12,7 @@ function CreateNewProject() {
         width={"sm"}
         onClick={createNewProject}
         >
-          Create Workspace
+          Create Project
         </Button>
     </div>
   );
@@ -27,7 +27,7 @@ function OpenExistingProject() {
         variant="outline"
         width={"sm"}
         onClick={openExistingProject}
-        >Open Workspace</Button>
+        >Open Project</Button>
     </div>
   );
 }

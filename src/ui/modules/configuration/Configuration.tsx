@@ -1,104 +1,73 @@
 import { CompartmentBox } from "../../components/ui/compartment-box";
-import { createTreeCollection, Tabs, TreeView } from "@chakra-ui/react";
-import { LuChevronRight, LuFile, LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
+import { createListCollection, HStack, Listbox, Stack, Tabs } from "@chakra-ui/react";
+import { LuFolder, LuNetwork, LuPlus, LuSquareCheck, LuUser } from "react-icons/lu";
 import Module from "../module";
+import { useEffect, useState } from "react";
+import { useShellContext } from "../../shell/ShellContext";
 
 export default function Configuration() {
-    interface Node {
-        id: string
-        name: string
-        children?: Node[]
+
+    type ResourceFile = {
+        name: string;
+        path: string;
     }
 
-    const collection = createTreeCollection<Node>({
-    nodeToValue: (node) => node.id,
-    nodeToString: (node) => node.name,
-    rootNode: {
-        id: "ROOT",
-        name: "",
-        children: [
-        {
-            id: "node_modules",
-            name: "node_modules",
-            children: [
-            { id: "node_modules/zag-js", name: "zag-js" },
-            { id: "node_modules/pandacss", name: "panda" },
-            {
-                id: "node_modules/@types",
-                name: "@types",
-                children: [
-                { id: "node_modules/@types/react", name: "react" },
-                { id: "node_modules/@types/react-dom", name: "react-dom" },
-                ],
-            },
-            ],
-        },
-        {
-            id: "src",
-            name: "src",
-            children: [
-            { id: "src/app.tsx", name: "app.tsx" },
-            { id: "src/index.ts", name: "index.ts" },
-            ],
-        },
-        { id: "panda.config", name: "panda.config.ts" },
-        { id: "package.json", name: "package.json" },
-        { id: "renovate.json", name: "renovate.json" },
-        { id: "readme.md", name: "README.md" },
-        ],
-    },
+    type Resources = ResourceFile[];
+
+    const [resources, setResources] = useState<Resources>([]);
+
+    const { workspacePath } = useShellContext();
+    
+    const loadResources = async () => {
+        const resoourcesIndex = await window.electronApi.configuration.resources.index({
+            workspacePath
+        });
+        setResources(resoourcesIndex);
+    };
+
+    useEffect(() => {
+        loadResources();
+    }, []);
+
+    const resourcesList = createListCollection({
+        items: resources.map(resource => ({ label: resource, value: resource })),
     });
+
+    const [value, setValue] = useState<string[]>([])
 
     return (
         <Module.Root>
             <Module.Explorer>
                 <CompartmentBox.Box name="Explorer">
                     <CompartmentBox.Compartment name="Resources">
-                        <TreeView.Root collection={collection} maxW="sm" variant={'subtle'}>
-                            <TreeView.Tree>
-                                <TreeView.Node
-                                indentGuide={<TreeView.BranchIndentGuide />}
-                                render={({ node, nodeState }) =>
-                                    nodeState.isBranch ? (
-                                    <TreeView.BranchControl>
-                                        <TreeView.BranchIndicator>
-                                            <LuChevronRight />
-                                        </TreeView.BranchIndicator>
-                                        <TreeView.BranchText>{node.name}</TreeView.BranchText>
-                                    </TreeView.BranchControl>
-                                    ) : (
-                                    <TreeView.Item>
-                                        <LuFile />
-                                        <TreeView.ItemText>{node.name}</TreeView.ItemText>
-                                    </TreeView.Item>
-                                    )
-                                }
-                                />
-                            </TreeView.Tree>
-                        </TreeView.Root>
-
+                        <Stack maxWidth="320px" width="full" gap="4">
+                            <Listbox.Root
+                                collection={resourcesList}
+                                value={value}
+                                onValueChange={(details) => setValue(details.value)}
+                            >
+                                <Listbox.Content>
+                                    <Listbox.Item item={[{ label: "React.js", value: "react" }]} key="react">
+                                        <HStack>
+                                            <LuPlus></LuPlus>
+                                            <Listbox.ItemText onClick={handleCreateNewResource}>Add Resource</Listbox.ItemText>
+                                        </HStack>
+                                        
+                                    </Listbox.Item>
+                                    {resourcesList.items.map((resource) => (
+                                        <Listbox.Item item={resource} key={resource.value}>
+                                            <HStack>
+                                                <LuNetwork></LuNetwork>
+                                                <Listbox.ItemText onClick={handleLoadResource}>{resource.label}</Listbox.ItemText>
+                                            </HStack>
+                                        </Listbox.Item>
+                                    ))}
+                                </Listbox.Content>
+                            </Listbox.Root>
+                        </Stack>
                     </CompartmentBox.Compartment>
                     <CompartmentBox.Compartment name="Entities">
-                        <TreeView.Root collection={collection} maxW="sm">
-                            <TreeView.Tree>
-                                <TreeView.Node
-                                indentGuide={<TreeView.BranchIndentGuide />}
-                                render={({ node, nodeState }) =>
-                                    nodeState.isBranch ? (
-                                    <TreeView.BranchControl>
-                                        <LuFolder />
-                                        <TreeView.BranchText>{node.name}</TreeView.BranchText>
-                                    </TreeView.BranchControl>
-                                    ) : (
-                                    <TreeView.Item>
-                                        <LuFile />
-                                        <TreeView.ItemText>{node.name}</TreeView.ItemText>
-                                    </TreeView.Item>
-                                    )
-                                }
-                                />
-                            </TreeView.Tree>
-                        </TreeView.Root>
+                        
                     </CompartmentBox.Compartment>
                 </CompartmentBox.Box>
             </Module.Explorer>
@@ -133,29 +102,10 @@ export default function Configuration() {
             <Module.Palette>
                 <CompartmentBox.Box name="Palette">
                     <CompartmentBox.Compartment name="Schema">
-                        <TreeView.Root collection={collection} maxW="sm">
-                            <TreeView.Tree>
-                                <TreeView.Node
-                                indentGuide={<TreeView.BranchIndentGuide />}
-                                render={({ node, nodeState }) =>
-                                    nodeState.isBranch ? (
-                                    <TreeView.BranchControl>
-                                        <LuFolder />
-                                        <TreeView.BranchText>{node.name}</TreeView.BranchText>
-                                    </TreeView.BranchControl>
-                                    ) : (
-                                    <TreeView.Item>
-                                        <LuFile />
-                                        <TreeView.ItemText>{node.name}</TreeView.ItemText>
-                                    </TreeView.Item>
-                                    )
-                                }
-                                />
-                            </TreeView.Tree>
-                        </TreeView.Root>
                     </CompartmentBox.Compartment>
                 </CompartmentBox.Box>
             </Module.Palette>
         </Module.Root>      
     );
 }
+

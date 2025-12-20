@@ -1,4 +1,4 @@
-import { Box, HStack } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import Titlebar from "../layouts/Titlebar"
 import AppMenu from "../layouts/AppMenu";
 import Statusbar from "../layouts/Statusbar";

@@ -2,14 +2,22 @@
 const {app, BrowserWindow, screen, ipcMain} = require('electron');
 const path = require('path');
 const fs = require('fs');
-const {createProject, openProject} = require('./welcome.cjs');
+const ProjectHandlers = require('./IPC/ProjectHandlers.cjs');
+const ResourceHandlers = require('./IPC/ResourceHandlers.cjs');
+
+const projectHandlers = new ProjectHandlers();
+const resourceHandlers = new ResourceHandlers();
 
 ipcMain.handle('welcome.createProject', async () => {
-    return await createProject();
+    return await projectHandlers.createProject();
 });
 
 ipcMain.handle('welcome.openProject', async () => {
-    return await openProject();
+    return await projectHandlers.openProject();
+});
+
+ipcMain.handle('configuration.resources.index', async (event, workspacePath) => {
+    return await resourceHandlers.index(workspacePath);
 });
 
 app.on('ready', () => {

@@ -5,7 +5,7 @@ const compartmentBox = ({name, children}: {name: string, children?: React.ReactN
     const { size } = useShellContext();
     return (
         <>
-            <Heading mx='7' fontSize='xs' textTransform="uppercase">{name}</Heading>
+            <Heading mx='8' fontSize='xs' textTransform="uppercase">{name}</Heading>
             <Accordion.Root collapsible size={size} fontSize='xs' multiple>
                 {children}
             </Accordion.Root>

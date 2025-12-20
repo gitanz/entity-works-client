@@ -50,7 +50,7 @@ export default function Configuration() {
                                     <Listbox.Item item={[{ label: "React.js", value: "react" }]} key="react">
                                         <HStack>
                                             <LuPlus></LuPlus>
-                                            <Listbox.ItemText onClick={handleCreateNewResource}>Add Resource</Listbox.ItemText>
+                                            <Listbox.ItemText>Add Resource</Listbox.ItemText>
                                         </HStack>
                                         
                                     </Listbox.Item>
@@ -58,7 +58,7 @@ export default function Configuration() {
                                         <Listbox.Item item={resource} key={resource.value}>
                                             <HStack>
                                                 <LuNetwork></LuNetwork>
-                                                <Listbox.ItemText onClick={handleLoadResource}>{resource.label}</Listbox.ItemText>
+                                                <Listbox.ItemText>{resource.label}</Listbox.ItemText>
                                             </HStack>
                                         </Listbox.Item>
                                     ))}

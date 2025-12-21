@@ -1,70 +1,16 @@
 import { CompartmentBox } from "../../components/ui/compartment-box";
-import { createListCollection, HStack, Listbox, Stack, Tabs } from "@chakra-ui/react";
-import { LuFolder, LuNetwork, LuPlus, LuSquareCheck, LuUser } from "react-icons/lu";
+import { Tabs } from "@chakra-ui/react";
+import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
 import Module from "../module";
-import { useEffect, useState } from "react";
-import { useShellContext } from "../../shell/ShellContext";
+import { ResourceExplorer } from "./ResourceExplorer";
 
 export default function Configuration() {
-
-    type ResourceFile = {
-        name: string;
-        path: string;
-    }
-
-    type Resources = ResourceFile[];
-
-    const [resources, setResources] = useState<Resources>([]);
-
-    const { workspacePath } = useShellContext();
-    
-    const loadResources = async () => {
-        const resoourcesIndex = await window.electronApi.configuration.resources.index({
-            workspacePath
-        });
-        setResources(resoourcesIndex);
-    };
-
-    useEffect(() => {
-        loadResources();
-    }, []);
-
-    const resourcesList = createListCollection({
-        items: resources.map(resource => ({ label: resource, value: resource })),
-    });
-
-    const [value, setValue] = useState<string[]>([])
-
     return (
         <Module.Root>
             <Module.Explorer>
                 <CompartmentBox.Box name="Explorer">
                     <CompartmentBox.Compartment name="Resources">
-                        <Stack maxWidth="320px" width="full" gap="4">
-                            <Listbox.Root
-                                collection={resourcesList}
-                                value={value}
-                                onValueChange={(details) => setValue(details.value)}
-                            >
-                                <Listbox.Content>
-                                    <Listbox.Item item={[{ label: "React.js", value: "react" }]} key="react">
-                                        <HStack>
-                                            <LuPlus></LuPlus>
-                                            <Listbox.ItemText>Add Resource</Listbox.ItemText>
-                                        </HStack>
-                                        
-                                    </Listbox.Item>
-                                    {resourcesList.items.map((resource) => (
-                                        <Listbox.Item item={resource} key={resource.value}>
-                                            <HStack>
-                                                <LuNetwork></LuNetwork>
-                                                <Listbox.ItemText>{resource.label}</Listbox.ItemText>
-                                            </HStack>
-                                        </Listbox.Item>
-                                    ))}
-                                </Listbox.Content>
-                            </Listbox.Root>
-                        </Stack>
+                        <ResourceExplorer></ResourceExplorer>
                     </CompartmentBox.Compartment>
                     <CompartmentBox.Compartment name="Entities">
                         

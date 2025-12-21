@@ -20,6 +20,14 @@ ipcMain.handle('configuration.resources.index', async (event, workspacePath) => 
     return await resourceHandlers.index(workspacePath);
 });
 
+ipcMain.handle('configuration.resources.add', async (event, {workspacePath, resourceName}) => {
+    return await resourceHandlers.create(workspacePath, resourceName);
+});
+
+ipcMain.handle('configuration.resources.rename', async (event, {workspacePath, resourceName, newResourceName}) => {
+    return await resourceHandlers.rename(workspacePath, resourceName, newResourceName);
+});
+
 app.on('ready', () => {
     const {width, height} = screen.getPrimaryDisplay().workAreaSize;
     const windowWidth = 850;

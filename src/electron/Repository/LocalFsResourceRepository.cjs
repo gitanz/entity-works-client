@@ -4,6 +4,12 @@ const fs = require('fs').promises;
 const path = require('path');
 
 class LocalFsResourceRepository extends ResourceRepository {
+
+    async get(resourcePath) {
+        const access = await fs.access(resourcePath);
+        return new ResourceFile(resourcePath, '');    
+    }
+
     async save(resource) {
         await fs.writeFile(resource.path, resource.content, 'utf-8');
     }
@@ -21,6 +27,10 @@ class LocalFsResourceRepository extends ResourceRepository {
             .map(filename => new ResourceFile(path.join(resourcePath, filename)));
         
         return resources;
+    }
+
+    async rename(resource, newResourcePath) {
+        await fs.rename(resource.path, newResourcePath)
     }
 }
 

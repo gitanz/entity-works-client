@@ -24,7 +24,7 @@ class ShowAllResources {
 
         const resources = await this.resourceRepository.all(path.join(workspacePath, 'resources'));
 
-        return resources.map(resource => resource.getName());
+        return resources.map(resource => { return { name: resource.getName(), path: resource.getPath() }; });
     }
 }
 

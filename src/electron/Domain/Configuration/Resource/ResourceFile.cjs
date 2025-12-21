@@ -14,6 +14,10 @@ class ResourceFile extends YmlFile {
         const filename = parts[parts.length - 1];
         return filename.replace('.resource.yml', '');
     }
+
+    getPath() {
+        return this.path;
+    }
 }
 
 module.exports = ResourceFile;

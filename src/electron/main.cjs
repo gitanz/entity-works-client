@@ -25,6 +25,7 @@ ipcMain.handle('configuration.resources.add', async (event, {workspacePath, reso
 });
 
 ipcMain.handle('configuration.resources.rename', async (event, {workspacePath, resourceName, newResourceName}) => {
+    console.log({workspacePath, resourceName, newResourceName})
     return await resourceHandlers.rename(workspacePath, resourceName, newResourceName);
 });
 

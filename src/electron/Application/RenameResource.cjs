@@ -11,10 +11,10 @@ class RenameResource {
         if (!workspaceExists) {
             throw new Error('Workspace does not exist');
         }
-        const resourcePath = path.join(workspacePath, resourceName, '.resource.yml');
-        const resource = this.resourceRepository.get(resourcePath);
+        const resourcePath = path.join(workspacePath, 'resources', resourceName + '.resource.yml');
+        const resource = await this.resourceRepository.get(resourcePath);
 
-        const newResourcePath = path.join(workspacePath, newResourceName, '.resource.yml');
+        const newResourcePath = path.join(workspacePath, 'resources', newResourceName + '.resource.yml');
         this.resourceRepository.rename(resource, newResourcePath);
     }
 }

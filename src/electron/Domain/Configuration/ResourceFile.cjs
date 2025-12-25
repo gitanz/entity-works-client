@@ -1,4 +1,4 @@
-const YmlFile = require( "../ConfigurationFile.cjs");
+const YmlFile = require( "./ConfigurationFile.cjs");
 
 class ResourceFile extends YmlFile {
     constructor(path, content = '') {

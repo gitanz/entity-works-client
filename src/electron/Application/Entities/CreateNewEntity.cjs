@@ -1,20 +1,20 @@
 const path = require("path");
-const ResourceFile = require("../Domain/Configuration/Resource/ResourceFile.cjs");
+const EntityFile = require("../../Domain/Configuration/EntityFile.cjs");
 
 /**
  * @implements {Application}
  */
-class CreateNewResource {
+class CreateNewEntity {
     /**
      * @param {WorkspaceRepository} workspaceRepository
-     * @param {ResourceRepository} resourceRepository
+     * @param {EntityRepository} entityRepository
     */
     constructor(
         workspaceRepository,
-        resourceRepository
+        entityRepository
     ) {
         this.workspaceRepository = workspaceRepository;
-        this.resourceRepository = resourceRepository;
+        this.entityRepository = entityRepository;
     }
 
     async execute(workspacePath, name) {
@@ -23,10 +23,10 @@ class CreateNewResource {
             throw new Error('Workspace does not exist');
         }
         
-        const resourcePath = path.join(workspacePath, 'resources', name + '.resource.yml');
-        const resource = new ResourceFile(resourcePath, '');
-        this.resourceRepository.save(resource);
+        const entityPath = path.join(workspacePath, 'entities', name + '.entity.yml');
+        const entity = new EntityFile(entityPath, '');
+        await this.entityRepository.save(entity);
     }
 }
 
-module.exports = CreateNewResource;
+module.exports = CreateNewEntity;

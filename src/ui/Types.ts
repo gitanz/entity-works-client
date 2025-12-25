@@ -10,6 +10,9 @@ export type DirectionMap = {
     [key in ResizeMode]: String
 }
 
+export type KeyValue<T> = {
+    [key:string]: T
+}
 export type Nullable<T> = T | null;
 
 export type LayoutSize = "sm" | "md" | "lg" | undefined;

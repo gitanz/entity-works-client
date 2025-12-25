@@ -1,8 +1,8 @@
 const LocalFsWorkspaceRepository = require("../Repository/LocalFsWorkspaceRepository.cjs");
 const LocalFsResourceRepository =  require("../Repository/LocalFsResourceRepository.cjs");
-const ShowAllResources = require("../Application/ShowAllResources.cjs");
-const CreateNewResource = require("../Application/CreateNewResource.cjs");
-const RenameResource = require('../Application/RenameResource.cjs');
+const ShowAllResources = require("../Application/Resources/ShowAllResources.cjs");
+const CreateNewResource = require("../Application/Resources/CreateNewResource.cjs");
+const RenameResource = require('../Application/Resources/RenameResource.cjs');
 
 class ResourceHandlers {
     async index({workspacePath}) {

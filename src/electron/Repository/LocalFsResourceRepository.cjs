@@ -1,9 +1,9 @@
-const ResourceFile  = require("../Domain/Configuration/Resource/ResourceFile.cjs");
-const ResourceRepository = require( "../Domain/Configuration/Resource/ResourceRespository.cjs");
+const ResourceFile  = require("../Domain/Configuration/ResourceFile.cjs");
+const FilesRepository = require( "../Domain/Configuration/FilesRepository.cjs");
 const fs = require('fs').promises;
 const path = require('path');
 
-class LocalFsResourceRepository extends ResourceRepository {
+class LocalFsResourceRepository extends FilesRepository {
 
     async get(resourcePath) {
         const access = await fs.access(resourcePath);

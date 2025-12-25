@@ -4,9 +4,11 @@ const path = require('path');
 const fs = require('fs');
 const ProjectHandlers = require('./IPC/ProjectHandlers.cjs');
 const ResourceHandlers = require('./IPC/ResourceHandlers.cjs');
+const EntityHandlers = require('./IPC/EntityHandlers.cjs');
 
 const projectHandlers = new ProjectHandlers();
 const resourceHandlers = new ResourceHandlers();
+const entityHandlers = new EntityHandlers();
 
 ipcMain.handle('welcome.createProject', async () => {
     return await projectHandlers.createProject();
@@ -20,13 +22,24 @@ ipcMain.handle('configuration.resources.index', async (event, workspacePath) => 
     return await resourceHandlers.index(workspacePath);
 });
 
-ipcMain.handle('configuration.resources.add', async (event, {workspacePath, resourceName}) => {
+ipcMain.handle('configuration.resources.add', async (event, {workspacePath, fileName: resourceName }) => {
     return await resourceHandlers.create(workspacePath, resourceName);
 });
 
-ipcMain.handle('configuration.resources.rename', async (event, {workspacePath, resourceName, newResourceName}) => {
-    console.log({workspacePath, resourceName, newResourceName})
+ipcMain.handle('configuration.resources.rename', async (event, {workspacePath, fileName:resourceName, newFileName:newResourceName}) => {
     return await resourceHandlers.rename(workspacePath, resourceName, newResourceName);
+});
+
+ipcMain.handle('configuration.entities.index', async (event, workspacePath) => {
+    return await entityHandlers.index(workspacePath);
+});
+
+ipcMain.handle('configuration.entities.add', async (event, {workspacePath, fileName: entityName }) => {
+    return await entityHandlers.create(workspacePath, entityName);
+});
+
+ipcMain.handle('configuration.entities.rename', async (event, {workspacePath, fileName:entityName, newFileName:newEntityName}) => {
+    return await entityHandlers.rename(workspacePath, entityName, newEntityName);
 });
 
 app.on('ready', () => {

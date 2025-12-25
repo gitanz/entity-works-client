@@ -2,7 +2,7 @@ import { CompartmentBox } from "../../components/ui/compartment-box";
 import { Tabs } from "@chakra-ui/react";
 import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
 import Module from "../module";
-import { ResourceExplorer } from "./ResourceExplorer";
+import { FileExplorer } from "./Explorer/FileExplorer";
 
 export default function Configuration() {
     return (
@@ -10,10 +10,10 @@ export default function Configuration() {
             <Module.Explorer>
                 <CompartmentBox.Box name="Explorer">
                     <CompartmentBox.Compartment name="Resources">
-                        <ResourceExplorer></ResourceExplorer>
+                        <FileExplorer type="resource"></FileExplorer>
                     </CompartmentBox.Compartment>
                     <CompartmentBox.Compartment name="Entities">
-                        
+                        <FileExplorer type="entity"></FileExplorer>
                     </CompartmentBox.Compartment>
                 </CompartmentBox.Box>
             </Module.Explorer>

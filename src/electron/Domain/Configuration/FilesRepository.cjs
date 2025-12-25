@@ -1,5 +1,5 @@
-class ResourceRepository {
-    async all(resourcePath) {
+class FilesRepository {
+    async all(path) {
         throw new Error('Method not implemented.');
     }
 
@@ -7,13 +7,13 @@ class ResourceRepository {
         throw new Error('Method not implemented.');
     }
 
-    async save(resource) {
+    async save(file) {
         throw new Error('Method not implemented.');
     }
 
-    async delete(resource) {
+    async delete(file) {
         throw new Error('Method not implemented.');
     }
 }
 
-module.exports = ResourceRepository;
+module.exports = FilesRepository;

@@ -1,23 +1,29 @@
-const path = require("path");
-const EntityFile = require("../../Domain/Configuration/EntityFile.cjs");
+import path from "path";
+import EntityFile from "../../Domain/Configuration/EntityFile";
+import type iWorkspaceRepository from "../../Domain/iWorkspaceRepository.ts";
+import type iConfigurationFilesRepository from "../../Domain/Configuration/iConfigurationFilesRepository.ts";
 
 /**
  * @implements {Application}
  */
-class CreateNewEntity {
+export default class CreateNewEntity {
+
+    private workspaceRepository: iWorkspaceRepository;
+    private entityRepository: iConfigurationFilesRepository;
+
     /**
      * @param {WorkspaceRepository} workspaceRepository
      * @param {EntityRepository} entityRepository
     */
     constructor(
-        workspaceRepository,
-        entityRepository
+        workspaceRepository: iWorkspaceRepository,
+        entityRepository: iConfigurationFilesRepository
     ) {
         this.workspaceRepository = workspaceRepository;
         this.entityRepository = entityRepository;
     }
 
-    async execute(workspacePath, name) {
+    async execute(workspacePath: string, name: string): Promise<void> {
         const workspaceExists = await this.workspaceRepository.workspaceExists(workspacePath);
         if (!workspaceExists) {
             throw new Error('Workspace does not exist');
@@ -28,5 +34,3 @@ class CreateNewEntity {
         await this.entityRepository.save(entity);
     }
 }
-
-module.exports = CreateNewEntity;

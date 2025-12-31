@@ -3,9 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "src/electron/main.cjs",
+  "main": "src/electron/main.ts",
   "scripts": {
-    "dev:electron": "electronmon src/electron/main.cjs",
+    "build:electron": "node electron.build.js && cp src/electron/preload.js dist/electron/preload.js",
+    "dev:electron": "npm run build:electron && electronmon dist/electron/main.js",
     "dev:react": "vite",
     "dev": "npm-run-all --parallel  dev:electron dev:react",
     "preview": "vite preview",

@@ -1,11 +1,27 @@
-const LocalFsWorkspaceRepository = require("../Repository/LocalFsWorkspaceRepository.cjs");
-const LocalFsResourceRepository =  require("../Repository/LocalFsResourceRepository.cjs");
-const ShowAllResources = require("../Application/Resources/ShowAllResources.cjs");
-const CreateNewResource = require("../Application/Resources/CreateNewResource.cjs");
-const RenameResource = require('../Application/Resources/RenameResource.cjs');
+import LocalFsWorkspaceRepository from "../Repository/LocalFsWorkspaceRepository";
+import LocalFsResourceRepository from "../Repository/LocalFsResourceRepository";
+import ShowAllResources from "../Application/Resources/ShowAllResources";
+import CreateNewResource from "../Application/Resources/CreateNewResource";
+import RenameResource from "../Application/Resources/RenameResource";
 
-class ResourceHandlers {
-    async index({workspacePath}) {
+interface IndexResourceParams {
+    workspacePath: string;
+}
+
+interface CreateResourceParams {
+    workspacePath: string;
+    fileName: string;
+}
+
+interface RenameResourceParams {
+    workspacePath: string;
+    fileName: string;
+    newFileName: string;
+}
+
+
+export default class ResourceHandlers {
+    async index({workspacePath}:IndexResourceParams) {
         const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
         const localFsResourceRepository = new LocalFsResourceRepository();
         const showAllResourcesUseCase = new ShowAllResources(
@@ -16,7 +32,7 @@ class ResourceHandlers {
         return await showAllResourcesUseCase.execute(workspacePath);
     }
 
-    async create(workspacePath, resourceName) {
+    async create({workspacePath, fileName: resourceName }:CreateResourceParams  ) {
         const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
         const localFsResourceRepository = new LocalFsResourceRepository();
         const createNewResourceUseCase = new CreateNewResource(localFsWorkspaceRepository, localFsResourceRepository);
@@ -24,7 +40,7 @@ class ResourceHandlers {
         return await createNewResourceUseCase.execute(workspacePath, resourceName);
     }
 
-    async rename(workspacePath, resourceName, newResourceName) {
+    async rename({workspacePath, fileName:resourceName, newFileName:newResourceName}:RenameResourceParams) {
         const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
         const localFsResourceRepository = new LocalFsResourceRepository();
         const renameResourceUseCase = new RenameResource(localFsWorkspaceRepository, localFsResourceRepository);
@@ -32,5 +48,3 @@ class ResourceHandlers {
         return await renameResourceUseCase.execute(workspacePath, resourceName, newResourceName);
     }
 }
-
-module.exports = ResourceHandlers;

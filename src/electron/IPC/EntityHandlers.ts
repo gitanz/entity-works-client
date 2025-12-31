@@ -1,11 +1,11 @@
-const LocalFsWorkspaceRepository = require("../Repository/LocalFsWorkspaceRepository.cjs");
-const LocalFsEntityRepository =  require("../Repository/LocalFsEntityRepository.cjs");
-const ShowAllEntities = require("../Application/Entities/ShowAllEntities.cjs");
-const CreateNewEntity = require("../Application/Entities/CreateNewEntity.cjs");
-const RenameEntity = require('../Application/Entities/RenameEntity.cjs');
+import LocalFsWorkspaceRepository from "../Repository/LocalFsWorkspaceRepository";
+import LocalFsEntityRepository from "../Repository/LocalFsEntityRepository";
+import ShowAllEntities from "../Application/Entities/ShowAllEntities";
+import CreateNewEntity from "../Application/Entities/CreateNewEntity";
+import RenameEntity from '../Application/Entities/RenameEntity';
 
-class EntityHandlers {
-    async index({workspacePath}) {
+export default class EntityHandlers {
+    async index({workspacePath}: {workspacePath: string}) {
         const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
         const localFsEntityRepository = new LocalFsEntityRepository();
         const showAllEntitiesUseCase = new ShowAllEntities(
@@ -16,7 +16,7 @@ class EntityHandlers {
         return await showAllEntitiesUseCase.execute(workspacePath);
     }
 
-    async create(workspacePath, entityName) {
+    async create({workspacePath, fileName: entityName } : {workspacePath: string, fileName: string}  ) {
         const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
         const localFsEntityRepository = new LocalFsEntityRepository();
         const createNewEntityUseCase = new CreateNewEntity(localFsWorkspaceRepository, localFsEntityRepository);
@@ -24,7 +24,7 @@ class EntityHandlers {
         return await createNewEntityUseCase.execute(workspacePath, entityName);
     }
 
-    async rename(workspacePath, entityName, newEntityName) {
+    async rename({workspacePath, fileName:entityName, newFileName:newEntityName} : {workspacePath: string, fileName: string, newFileName: string}) {
         const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
         const localFsEntityRepository = new LocalFsEntityRepository();
         const renameEntityUseCase = new RenameEntity(localFsWorkspaceRepository, localFsEntityRepository);
@@ -33,4 +33,3 @@ class EntityHandlers {
     }
 }
 
-module.exports = EntityHandlers;

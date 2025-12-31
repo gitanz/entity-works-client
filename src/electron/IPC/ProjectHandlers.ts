@@ -1,9 +1,8 @@
-const {dialog} = require('electron');
-const path = require('path');
+import { dialog } from 'electron';
+import path from 'path';
+import fs from 'fs/promises';
 
-const fs = require('fs').promises;
-
-class ProjectHandlers {
+export default class ProjectHandlers {
 
     async createProject() {
         const selection = await dialog.showOpenDialog({
@@ -57,7 +56,7 @@ class ProjectHandlers {
         return selectedPath;
     }
 
-    async showWarningMessage(message)
+    async showWarningMessage(message: string)
     {
         return await dialog.showMessageBox(
             {
@@ -68,5 +67,3 @@ class ProjectHandlers {
         );
     }
 }
-
-module.exports = ProjectHandlers;

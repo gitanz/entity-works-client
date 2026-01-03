@@ -18,6 +18,11 @@ export interface RenameFileField extends FileField {
     fileName: string
 } 
 
+export interface DeleteFileField {
+    delete: boolean,
+    fileName: string
+}
+
 export interface FileApi {
     add: (params: {workspacePath: string, fileName: string}) => Promise<void>,
     rename: (params: {workspacePath: string, fileName: string, newFileName: string}) => Promise<void>,

@@ -15,9 +15,11 @@ const routes = {
     'configuration.resources.index': resourceHandlers.index,
     'configuration.resources.add': resourceHandlers.create,
     'configuration.resources.rename': resourceHandlers.rename,
+    'configuration.resources.delete': resourceHandlers.delete,
     'configuration.entities.index': entityHandlers.index,
     'configuration.entities.add': entityHandlers.create,
     'configuration.entities.rename': entityHandlers.rename,
+    'configuration.entities.delete': entityHandlers.delete,
 };
 
 for (const [channel, handler] of Object.entries(routes)) {

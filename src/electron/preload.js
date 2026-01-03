@@ -11,14 +11,16 @@ contextBridge.exposeInMainWorld('electronApi', {
       create: () => ipcRenderer.invoke('configuration.resources.create'),
       index: (workspacePath) => ipcRenderer.invoke('configuration.resources.index', workspacePath),
       add: (workspacePath, fileName) => ipcRenderer.invoke('configuration.resources.add', workspacePath, fileName),
-      rename: (workspacePath, fileName, newFileName) => ipcRenderer.invoke('configuration.resources.rename', workspacePath, fileName, newFileName)
+      rename: (workspacePath, fileName, newFileName) => ipcRenderer.invoke('configuration.resources.rename', workspacePath, fileName, newFileName),
+      delete: (workspacePath, fileName) => ipcRenderer.invoke('configuration.resources.delete', workspacePath, fileName),
     },
     
     entities: {
       create: () => ipcRenderer.invoke('configuration.entities.create'),
       index: (workspacePath) => ipcRenderer.invoke('configuration.entities.index', workspacePath),
       add: (workspacePath, fileName) => ipcRenderer.invoke('configuration.entities.add', workspacePath, fileName),
-      rename: (workspacePath, fileName, newFileName) => ipcRenderer.invoke('configuration.entities.rename', workspacePath, fileName, newFileName)
+      rename: (workspacePath, fileName, newFileName) => ipcRenderer.invoke('configuration.entities.rename', workspacePath, fileName, newFileName),
+      delete: (workspacePath, fileName) => ipcRenderer.invoke('configuration.entities.delete', workspacePath, fileName),
     }
   },
 });

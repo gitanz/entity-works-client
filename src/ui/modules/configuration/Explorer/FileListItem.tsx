@@ -1,16 +1,17 @@
-import { Field, HStack, Input, Listbox, Menu, Portal, VStack } from "@chakra-ui/react"
+import { Button, CloseButton, Dialog, Field, HStack, Input, Listbox, Menu, Portal, VStack } from "@chakra-ui/react"
 import { LuNetwork } from "react-icons/lu"
 import { useShellContext } from "../../../shell/ShellContext";
 import type { ExplorerConfiguration, File, RenameFileField } from "./types";
 import { useEffect, useRef, useState } from "react";
 
 export function FileListItem(
-    {config, file, loadFiles, validateFileField}: 
+    {config, file, loadFiles, validateFileField, confirmDeleteFile}: 
     { 
         config: ExplorerConfiguration, 
         file: File, 
         loadFiles: () => Promise<void>, 
-        validateFileField: <T extends RenameFileField>(value: string, setState: React.Dispatch<React.SetStateAction<T>>, fileName?: string) => boolean 
+        validateFileField: <T extends RenameFileField>(value: string, setState: React.Dispatch<React.SetStateAction<T>>, fileName?: string) => boolean, 
+        confirmDeleteFile: (fileName: string) => void
     }) {
 
     const { workspacePath } = useShellContext();
@@ -24,7 +25,7 @@ export function FileListItem(
 
     const [renameFileField, setRenameFileField] = useState<RenameFileField>(initialRenameFileField);
     const resetRenameFileField = () => setRenameFileField(initialRenameFileField);
-    const showRenameFileField = (fileName: string) => {
+    const renameFileHandler = (fileName: string) => {
         setRenameFileField(
             {
                 rename: true,
@@ -44,8 +45,6 @@ export function FileListItem(
         }, 
         [renameFileField.rename, renameFileField.fileName]
     )
-
-
     
     const renameFile = async (newFileName: string, fileName: string) => {
         
@@ -80,21 +79,8 @@ export function FileListItem(
             await loadFiles();
         }
     }
-    
-    const deleteFileHandler = async (fileName: string) => {
-        if (!workspacePath) {
-            return;
-        }
-        
-        await config.api.delete({
-            workspacePath,
-            fileName: fileName
-        });
-    
-        await loadFiles();
-    }
 
-    return <div key={file.path}>
+    return <>
         <Field.Root invalid={renameFileField.error} hidden={!renameFileField.rename || renameFileField.fileName !== file.name}>
             <VStack paddingX="var(--listbox-item-padding-x)" paddingY="var(--listbox-item-padding-y)" width={"full"}>
                 <HStack width={"full"}>
@@ -137,11 +123,11 @@ export function FileListItem(
             <Portal>
                 <Menu.Positioner>
                     <Menu.Content >
-                        <Menu.Item value="rename" onClick={() => showRenameFileField(file.name)}>Rename</Menu.Item>
-                        <Menu.Item value="delete" onClick={() => deleteFileHandler(file.name)}>Delete</Menu.Item>
+                        <Menu.Item value="rename" onClick={() => renameFileHandler(file.name)}>Rename</Menu.Item>
+                        <Menu.Item value="delete" onClick={() => confirmDeleteFile(file.name)}>Delete</Menu.Item>
                     </Menu.Content>
                 </Menu.Positioner>
             </Portal>
         </Menu.Root>
-    </div>
+    </>
 }

@@ -1,10 +1,11 @@
-import { createListCollection, Listbox } from "@chakra-ui/react";
+import { Button, CloseButton, createListCollection, Dialog, Listbox, Portal } from "@chakra-ui/react";
 import { LuNetwork, LuPackage } from "react-icons/lu";
 import { useShellContext } from "../../../shell/ShellContext";
 import { useEffect, useState } from "react";
-import type { ExplorerType, FileField, Files } from "./types";
+import type { DeleteFileField, ExplorerType, FileField, Files } from "./types";
 import { AddFileListItem } from "./AddFileListItem";
 import { FileListItem } from "./FileListItem";
+import type { Nullable } from "../../../types";
 
 
 const explorerConfiguration: ExplorerType = {
@@ -109,6 +110,38 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
         return true;
     }
 
+    const [deleteFileState, setDeleteFileState] = useState<Nullable<DeleteFileField>>(null);
+    const confirmDeleteFile = (fileName: string) => {
+        setDeleteFileState({
+            delete: true,
+            fileName: fileName
+        });
+    }
+
+    const deleteFile = async (fileName: string) => {
+        if (!workspacePath) {
+            return;
+        }
+        
+        if(!fileName) {
+            return;
+        }
+
+        await config.api.delete({
+            workspacePath,
+            fileName: fileName
+        });
+    
+        resetDeleteFile();
+        
+        await loadFiles();
+    }
+
+    const resetDeleteFile = () => {
+        setDeleteFileState(null);
+    }
+
+
     //presentation
     return (
         <>
@@ -125,12 +158,45 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
                             file={file}
                             loadFiles={loadFiles}
                             validateFileField={validateFileField}
+                            confirmDeleteFile={confirmDeleteFile}
+                            key={file.path}
                         />
                     ))}
 
                 </Listbox.Content>
             </Listbox.Root>
+
+            <Dialog.Root 
+            role="alertdialog"
+            open={deleteFileState?.delete}
+            >    
+                <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                        <Dialog.Content>
+                            <Dialog.Header>
+                            <Dialog.Title>Are you sure?</Dialog.Title>
+                            </Dialog.Header>
+                            <Dialog.Body>
+                            <p>
+                                This will delete the {type} <strong>{deleteFileState?.fileName}</strong>. 
+                            </p>
+                            </Dialog.Body>
+                            <Dialog.Footer>
+                                <Dialog.ActionTrigger asChild>
+                                    <Button variant="outline" onClick={resetDeleteFile}>Cancel</Button>
+                                </Dialog.ActionTrigger>
+                                <Button colorPalette="red" onClick={() => {
+                                        if (!deleteFileState) return;
+                                        deleteFile(deleteFileState.fileName)
+                                    }
+                                }>Delete</Button>
+                            </Dialog.Footer>
+                            <Dialog.CloseTrigger asChild><CloseButton size="sm" /></Dialog.CloseTrigger>
+                        </Dialog.Content>
+                    </Dialog.Positioner>
+                </Portal>
+            </Dialog.Root>
         </>
-        
     );
 }

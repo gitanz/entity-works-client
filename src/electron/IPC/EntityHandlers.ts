@@ -3,6 +3,7 @@ import LocalFsEntityRepository from "../Repository/LocalFsEntityRepository";
 import ShowAllEntities from "../Application/Entities/ShowAllEntities";
 import CreateNewEntity from "../Application/Entities/CreateNewEntity";
 import RenameEntity from '../Application/Entities/RenameEntity';
+import DeleteEntity from "../Application/Entities/DeleteEntity";
 
 export default class EntityHandlers {
     async index({workspacePath}: {workspacePath: string}) {
@@ -30,6 +31,14 @@ export default class EntityHandlers {
         const renameEntityUseCase = new RenameEntity(localFsWorkspaceRepository, localFsEntityRepository);
 
         return await renameEntityUseCase.execute(workspacePath, entityName, newEntityName);
+    }
+
+    async delete({workspacePath, fileName:entityName}: {workspacePath: string, fileName: string}) {
+        const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
+        const localFsEntityRepository = new LocalFsEntityRepository();
+        const deleteEntityUseCase = new DeleteEntity(localFsWorkspaceRepository, localFsEntityRepository);
+
+        return await deleteEntityUseCase.execute(workspacePath, entityName);
     }
 }
 

@@ -3,6 +3,7 @@ import LocalFsResourceRepository from "../Repository/LocalFsResourceRepository";
 import ShowAllResources from "../Application/Resources/ShowAllResources";
 import CreateNewResource from "../Application/Resources/CreateNewResource";
 import RenameResource from "../Application/Resources/RenameResource";
+import DeleteResource from "../Application/Resources/DeleteResource";
 
 interface IndexResourceParams {
     workspacePath: string;
@@ -46,5 +47,13 @@ export default class ResourceHandlers {
         const renameResourceUseCase = new RenameResource(localFsWorkspaceRepository, localFsResourceRepository);
 
         return await renameResourceUseCase.execute(workspacePath, resourceName, newResourceName);
+    }
+
+    async delete({workspacePath, fileName:resourceName}:CreateResourceParams) {
+        const localFsWorkspaceRepository = new LocalFsWorkspaceRepository();
+        const localFsResourceRepository = new LocalFsResourceRepository();
+        const deleteResourceUseCase = new DeleteResource(localFsWorkspaceRepository, localFsResourceRepository);
+
+        return await deleteResourceUseCase.execute(workspacePath, resourceName);
     }
 }

@@ -192,7 +192,7 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
                                     }
                                 }>Delete</Button>
                             </Dialog.Footer>
-                            <Dialog.CloseTrigger asChild><CloseButton size="sm" /></Dialog.CloseTrigger>
+                            <Dialog.CloseTrigger asChild><CloseButton size="sm" onClick={resetDeleteFile}/></Dialog.CloseTrigger>
                         </Dialog.Content>
                     </Dialog.Positioner>
                 </Portal>

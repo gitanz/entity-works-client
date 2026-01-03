@@ -73,7 +73,7 @@ export function AddFileListItem({ config, loadFiles, validateFileField }: {
                         width={"full"}
                         variant={"outline"}
                         onClick={addFileFieldControl.show}>
-                        <LuPlus></LuPlus><Span textTransform={'capitalize'}>Add {config.label}</Span>
+                        <LuPlus></LuPlus><Span textTransform={'capitalize'}>Add</Span>
                     </Button>
                 </VStack>
             </Field.Root>

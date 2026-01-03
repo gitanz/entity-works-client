@@ -118,6 +118,7 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
                 selectionMode="multiple"
             >
                 <Listbox.Content>
+                    
                     {fileList.items.map((file) => (
                         <FileListItem
                             config={config}

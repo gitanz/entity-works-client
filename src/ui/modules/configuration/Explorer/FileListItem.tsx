@@ -124,7 +124,7 @@ export function FileListItem(
         </Field.Root>
 
         <Menu.Root>
-            <Menu.ContextTrigger width="full">
+            <Menu.ContextTrigger width="full" hidden={renameFileField.rename && renameFileField.fileName === file.name}>
                 <Listbox.Item item={file.path}>
                     <HStack>
                         <config.icon></config.icon>

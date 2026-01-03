@@ -1,5 +1,4 @@
-import { Button, CloseButton, Dialog, Field, HStack, Input, Listbox, Menu, Portal, VStack } from "@chakra-ui/react"
-import { LuNetwork } from "react-icons/lu"
+import { Field, HStack, Input, Listbox, Menu, Portal, VStack } from "@chakra-ui/react"
 import { useShellContext } from "../../../shell/ShellContext";
 import type { ExplorerConfiguration, File, RenameFileField } from "./types";
 import { useEffect, useRef, useState } from "react";

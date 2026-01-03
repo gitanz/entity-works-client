@@ -84,7 +84,7 @@ export function FileListItem(
         <Field.Root invalid={renameFileField.error} hidden={!renameFileField.rename || renameFileField.fileName !== file.name}>
             <VStack paddingX="var(--listbox-item-padding-x)" paddingY="var(--listbox-item-padding-y)" width={"full"}>
                 <HStack width={"full"}>
-                    <LuNetwork></LuNetwork>
+                    <config.icon></config.icon>
                     <Input
                         type="text"
                         size={"xs"}

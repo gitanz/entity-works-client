@@ -1,33 +1,26 @@
-import { Accordion, Box, Heading, Span } from "@chakra-ui/react";
-import { useShellContext } from "../../shell/ShellContext";
+import { Box, Heading, Stack, VStack } from "@chakra-ui/react";
 
 const compartmentBox = ({name, children}: {name: string, children?: React.ReactNode}) => {
-    const { size } = useShellContext();
     return (
-        <>
-            <Heading mx='8' fontSize='xs' textTransform="uppercase">{name}</Heading>
-            <Accordion.Root collapsible size={size} fontSize='xs' multiple>
-                {children}
-            </Accordion.Root>
-        </>
+        <VStack height={'full'} width={'full'} overflowY={'hidden'} alignItems={'flex-start'}>
+            <Heading px='2.5' width={'full'} fontSize='xs' textTransform="uppercase">{name}</Heading>
+            {children}
+        </VStack>
     )
 }
 
 const compartment = ({name, children}: {name: string, children?: React.ReactNode}) => {
     return (
-        <Accordion.Item value={name}>
-            <Accordion.ItemTrigger>
-                <Accordion.ItemIndicator />
-                <Span flex="1" fontWeight="bold" textTransform="uppercase" fontSize='xs'>{name}</Span>
-            </Accordion.ItemTrigger>
-            <Accordion.ItemContent>
-                <Accordion.ItemBody padding={0}>
-                    <Box fontSize='xs'>
-                        {children}
-                    </Box>
-                </Accordion.ItemBody>
-            </Accordion.ItemContent>
-        </Accordion.Item>
+        <Box 
+            fontSize='xs'
+            height={'full'}
+            overflowY={'hidden'}
+            width={'full'}
+            > 
+                <Heading px='2.5' width={'full'} fontSize='xs' textTransform="uppercase">{name}</Heading>    
+            {children}
+        </Box>
+        
     );
 }
 

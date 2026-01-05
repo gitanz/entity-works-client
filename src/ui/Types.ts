@@ -10,9 +10,6 @@ export type DirectionMap = {
     [key in ResizeMode]: String
 }
 
-export type KeyValue<T> = {
-    [key:string]: T
-}
 export type Nullable<T> = T | null;
 
 export type LayoutSize = "sm" | "md" | "lg" | undefined;
@@ -21,6 +18,11 @@ export type LayoutSpecs = {
     menuBarWidth: number,
     titleBarHeight: number,
     statusBarHeight: number
+}
+
+export interface Dimensions {
+    width: number,
+    height: number
 }
 
 export interface ShellState {

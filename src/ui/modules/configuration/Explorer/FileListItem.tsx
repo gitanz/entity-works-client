@@ -1,6 +1,6 @@
-import { Field, HStack, Input, Listbox, Menu, Portal, VStack } from "@chakra-ui/react"
+import { Field, HStack, Input, Menu, Portal, Span, VStack } from "@chakra-ui/react"
 import { useShellContext } from "../../../shell/ShellContext";
-import type { ExplorerConfiguration, File, RenameFileField } from "./types";
+import type { ExplorerConfiguration, File, RenameFileField } from "../types";
 import { useEffect, useRef, useState } from "react";
 
 export function FileListItem(
@@ -82,7 +82,7 @@ export function FileListItem(
     return <>
         <Field.Root invalid={renameFileField.error} hidden={!renameFileField.rename || renameFileField.fileName !== file.name}>
             <VStack paddingX="var(--listbox-item-padding-x)" paddingY="var(--listbox-item-padding-y)" width={"full"}>
-                <HStack width={"full"}>
+                <HStack paddingX={2.5} paddingY={1} width={"full"} fontSize={"sm"}>
                     <config.icon></config.icon>
                     <Input
                         type="text"
@@ -110,14 +110,10 @@ export function FileListItem(
 
         <Menu.Root>
             <Menu.ContextTrigger width="full" hidden={renameFileField.rename && renameFileField.fileName === file.name}>
-                <Listbox.Item item={file.path}>
-                    <HStack>
-                        <config.icon></config.icon>
-                        <Listbox.ItemText>{file.name}</Listbox.ItemText>
-                        <Listbox.ItemIndicator />
-
-                    </HStack>
-                </Listbox.Item>
+                <HStack paddingX={2.5} paddingY={1} width={"full"} fontSize={"sm"}>
+                    <config.icon></config.icon>
+                    <Span>{file.name}</Span>
+                </HStack>
             </Menu.ContextTrigger>
             <Portal>
                 <Menu.Positioner>

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { Nullable } from "../../../types";
-import type { ExplorerConfiguration, FileField } from "./types";
+import type { ExplorerConfiguration, FileField } from "../types";
 import { useShellContext } from "../../../shell/ShellContext";
 import { Button, Field, HStack, Input, Span, VStack } from "@chakra-ui/react";
-import { LuNetwork, LuPlus } from "react-icons/lu";
+import { LuPlus } from "react-icons/lu";
 
 export function AddFileListItem({ config, loadFiles, validateFileField }: {
     config: ExplorerConfiguration,
@@ -67,21 +67,22 @@ export function AddFileListItem({ config, loadFiles, validateFileField }: {
     return (
         <form onSubmit={(e) => { e.preventDefault(); addFileRequest(); }} ref={fileFormRef}>
             <Field.Root hidden={showAddFileField}>
-                <VStack paddingX="1" paddingY="1" width={"full"}>
+                <VStack paddingX={2.5} paddingY={1} width={"full"}>
                     <Button
                         size={"xs"}
                         width={"full"}
                         variant={"outline"}
                         onClick={addFileFieldControl.show}>
+                        
                         <LuPlus></LuPlus><Span textTransform={'capitalize'}>Add</Span>
                     </Button>
                 </VStack>
             </Field.Root>
 
             <Field.Root invalid={fileField.error} hidden={!showAddFileField}>
-                <VStack paddingX="1" paddingY="1" width={"full"}>
-                    <HStack width={"full"}>
-                        <LuNetwork></LuNetwork>
+                <VStack width={"full"}>
+                    <HStack paddingX={2.5} paddingY={1} width={"full"} fontSize={"sm"}>
+                        <config.icon></config.icon>
                         <Input
                             type="text"
                             size={"xs"}

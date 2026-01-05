@@ -25,32 +25,39 @@ const ModuleRoot = ({children}: {children: React.ReactNode}) => {
 
     return (
         <GridItem
-            gridArea={"app-area"}>
+            gridArea={"app-area"}
+            height={'full'}
+            overflowY={'hidden'}
+            >
                 <Grid 
                     templateColumns={appColumns} 
                     templateRows={appRows}
                     templateAreas={appAreas}
+                    height={'full'}
+                    overflowY={'hidden'}
                 >
                     {children}    
                 </Grid>      
         </GridItem>
     );
-}
+}  
 
 const ModuleExplorer = ({children}: {children?: React.ReactNode}) => {
     const {moduleLayout} = useModuleContext();
     if (moduleLayout?.explorer === 0) return null;
 
     return (
-        <GridItem 
+            <GridItem 
             gridArea={"explorer"}
             borderRightWidth="1px"
             borderRightColor="border"
             borderBottomWidth="1px"
             borderBottomColor="border"
-        >
-            {children}
-        </GridItem>
+            height={'full'}
+            overflowY='hidden'
+            >
+                {children}
+            </GridItem>
     );
 }
 

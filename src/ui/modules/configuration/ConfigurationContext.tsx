@@ -1,6 +1,12 @@
 import { createContext, useContext } from "react";
+import type { EntityConfigurationFile, ResourceConfigurationFile } from "./types";
 
-export interface IConfigurationContext {}
+export interface IConfigurationContext {
+    selectedEntities?: EntityConfigurationFile[];
+    setSelectedEntities?: (files: EntityConfigurationFile[]) => void;
+    selectedResources?: ResourceConfigurationFile[];
+    setSelectedResources?: (files: ResourceConfigurationFile[]) => void;
+};
 
 const defaultContext: IConfigurationContext = {};
 
@@ -12,7 +18,7 @@ export const useConfigurationContext = () => {
 
 export default function ConfigurationProvider({ children }: { children: React.ReactNode }) {
     return (
-            <ConfigurationContext.Provider value={{}}>
+            <ConfigurationContext.Provider value={{ ...defaultContext }}>
             {children}
             </ConfigurationContext.Provider>    
     );

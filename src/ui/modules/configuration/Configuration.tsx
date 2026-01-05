@@ -1,21 +1,33 @@
 import { CompartmentBox } from "../../components/ui/compartment-box";
-import { Tabs } from "@chakra-ui/react";
+import { Separator, Tabs } from "@chakra-ui/react";
 import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
 import Module from "../module";
 import { FileExplorer } from "./Explorer/FileExplorer";
+import { useModuleContext } from "../ModuleContext";
+import { useEffect } from "react";
 
 export default function Configuration() {
+    
+    const {moduleLayout} = useModuleContext();
+
+    useEffect(() => {
+        moduleLayout?.setExplorer(1);
+        moduleLayout?.setDrawer(0);
+        moduleLayout?.setPalette(1);
+    }, []);
+    
     return (
         <Module.Root>
             <Module.Explorer>
                 <CompartmentBox.Box name="Explorer">
                     <CompartmentBox.Compartment name="Resources">
                         <FileExplorer type="resource"></FileExplorer>
-                    </CompartmentBox.Compartment>
+                    </CompartmentBox.Compartment>    
+                    <Separator></Separator>
                     <CompartmentBox.Compartment name="Entities">
                         <FileExplorer type="entity"></FileExplorer>
-                    </CompartmentBox.Compartment>
-                </CompartmentBox.Box>
+                        </CompartmentBox.Compartment>
+                    </CompartmentBox.Box>
             </Module.Explorer>
             <Module.Workspace>
                 <div>

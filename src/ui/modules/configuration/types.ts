@@ -7,6 +7,14 @@ export interface File {
     path: string
 }
 
+export interface EntityConfigurationFile extends File {
+    type: 'entity',
+}
+
+export interface ResourceConfigurationFile extends File {
+    type: 'resource',
+}
+
 export interface FileField {
     value: any,
     error: boolean,

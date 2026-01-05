@@ -1,8 +1,8 @@
-import { Button, CloseButton, createListCollection, Dialog, Listbox, Portal } from "@chakra-ui/react";
+import { Box, Button, CloseButton, createListCollection, Dialog, Portal, VStack } from "@chakra-ui/react";
 import { LuNetwork, LuPackage } from "react-icons/lu";
 import { useShellContext } from "../../../shell/ShellContext";
 import { useEffect, useState } from "react";
-import type { DeleteFileField, ExplorerType, FileField, Files } from "./types";
+import type { DeleteFileField, ExplorerType, FileField, Files } from "../types";
 import { AddFileListItem } from "./AddFileListItem";
 import { FileListItem } from "./FileListItem";
 import type { Nullable } from "../../../types";
@@ -144,31 +144,30 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
 
     //presentation
     return (
-        <>
-            <AddFileListItem config={config} loadFiles={loadFiles} validateFileField={validateFileField}></AddFileListItem>
-            <Listbox.Root
-                collection={fileList}
-                selectionMode="multiple"
-            >
-                <Listbox.Content>
-                    
-                    {fileList.items.map((file) => (
-                        <FileListItem
-                            config={config}
-                            file={file}
-                            loadFiles={loadFiles}
-                            validateFileField={validateFileField}
-                            confirmDeleteFile={confirmDeleteFile}
-                            key={file.path}
-                        />
-                    ))}
+        <VStack height={'full'}>
+            <Box flexShrink={0} width={'full'}>
+                <AddFileListItem config={config} loadFiles={loadFiles} validateFileField={validateFileField}></AddFileListItem>
+            </Box>
 
-                </Listbox.Content>
-            </Listbox.Root>
-
+            <Box flex={1} maxHeight={'full'} width={'full'} overflowY={'scroll'}>
+                <VStack flex={'1'}>
+                {fileList.items.map((file) => (
+                    <FileListItem
+                        config={config}
+                        file={file}
+                        loadFiles={loadFiles}
+                        validateFileField={validateFileField}
+                        confirmDeleteFile={confirmDeleteFile}
+                        key={file.path}
+                    />
+                ))}    
+            </VStack>        
+            </Box>
+            
             <Dialog.Root 
             role="alertdialog"
             open={deleteFileState?.delete}
+            placement={'center'}
             >    
                 <Portal>
                     <Dialog.Backdrop />
@@ -197,6 +196,6 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
                     </Dialog.Positioner>
                 </Portal>
             </Dialog.Root>
-        </>
+        </VStack>
     );
 }

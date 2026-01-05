@@ -22,6 +22,8 @@ function DefaultLayout({children}: {children?: React.ReactNode}) {
             }
             borderWidth="1px"
             borderColor="border"
+            height={'100%'}
+            overflowY={'hidden'}
         >    
             {children}
         </Grid>

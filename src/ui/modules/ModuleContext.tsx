@@ -8,19 +8,19 @@ export const useModuleContext = () => {
 }
 
 export default function ModuleProvider({id, children}: {id: string, children?: React.ReactNode}) {
-    const [explorer, setExplorer] = useState<Number>(1)
-    const [palette, setPalette] = useState<Number>(1)
-    const [drawer, setDrawer] = useState<Number>(1)
+    const [explorer, setExplorer] = useState<Number>(0)
+    const [palette, setPalette] = useState<Number>(0)
+    const [drawer, setDrawer] = useState<Number>(0)
 
     const defaultContext: IModuleState = {
         id: id,
         moduleLayout: {
-            explorer: explorer,
-            setExplorer: setExplorer,
-            palette: palette,
-            setPalette: setPalette,
-            drawer: drawer,
-            setDrawer: setDrawer,
+            explorer,
+            setExplorer,
+            palette,
+            setPalette,
+            drawer,
+            setDrawer,
         }
     }
 

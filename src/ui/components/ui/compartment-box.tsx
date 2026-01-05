@@ -9,13 +9,14 @@ const compartmentBox = ({name, children}: {name: string, children?: React.ReactN
     )
 }
 
-const compartment = ({name, children}: {name: string, children?: React.ReactNode}) => {
+const compartment = ({name, style, children}: {name: string, style?: React.CSSProperties, children?: React.ReactNode}) => {
     return (
         <Box 
             fontSize='xs'
             height={'full'}
             overflowY={'hidden'}
             width={'full'}
+            style={style}
             > 
                 <Heading px='2.5' width={'full'} fontSize='xs' textTransform="uppercase">{name}</Heading>    
             {children}

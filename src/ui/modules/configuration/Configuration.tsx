@@ -1,5 +1,5 @@
 import { CompartmentBox } from "../../components/ui/compartment-box";
-import { Separator, Tabs } from "@chakra-ui/react";
+import { Splitter, Tabs } from "@chakra-ui/react";
 import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
 import Module from "../module";
 import { FileExplorer } from "./Explorer/FileExplorer";
@@ -20,14 +20,26 @@ export default function Configuration() {
         <Module.Root>
             <Module.Explorer>
                 <CompartmentBox.Box name="Explorer">
-                    <CompartmentBox.Compartment name="Resources">
-                        <FileExplorer type="resource"></FileExplorer>
-                    </CompartmentBox.Compartment>    
-                    <Separator></Separator>
-                    <CompartmentBox.Compartment name="Entities">
-                        <FileExplorer type="entity"></FileExplorer>
-                        </CompartmentBox.Compartment>
-                    </CompartmentBox.Box>
+                    <Splitter.Root
+                        panels={[{ id: "resources", minSize: 20 }, { id: "entities", minSize: 20 }]}
+                        borderWidth="1px"
+                        minH="60"
+                        orientation="vertical"
+                        borderX={0}
+                    >
+                        <Splitter.Panel id="resources">
+                            <CompartmentBox.Compartment name="Resources" style={{borderBottom: '1px solid #222222'}}>
+                                <FileExplorer type="resource"></FileExplorer>
+                            </CompartmentBox.Compartment>
+                        </Splitter.Panel>
+                        <Splitter.ResizeTrigger id="resources:entities" />
+                        <Splitter.Panel id="entities">
+                            <CompartmentBox.Compartment name="Entities">
+                                <FileExplorer type="entity"></FileExplorer>
+                            </CompartmentBox.Compartment>
+                        </Splitter.Panel>
+                    </Splitter.Root>
+                </CompartmentBox.Box>
             </Module.Explorer>
             <Module.Workspace>
                 <div>

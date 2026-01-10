@@ -4,10 +4,12 @@ import ProjectHandlers from './IPC/ProjectHandlers';
 import ResourceHandlers from './IPC/ResourceHandlers';
 import EntityHandlers from './IPC/EntityHandlers';
 import {fileURLToPath} from "url";
+import DBPaletteHandlers from './IPC/DBPaletteHandlers';
 
 const projectHandlers = new ProjectHandlers();
 const resourceHandlers = new ResourceHandlers();
 const entityHandlers = new EntityHandlers();
+const dbPaletteHandlers = new DBPaletteHandlers();
 
 const routes = {
     'welcome.createProject': projectHandlers.createProject,
@@ -20,6 +22,7 @@ const routes = {
     'configuration.entities.add': entityHandlers.create,
     'configuration.entities.rename': entityHandlers.rename,
     'configuration.entities.delete': entityHandlers.delete,
+    'configuration.DBPalette.testConnection': dbPaletteHandlers.testConnection,
 };
 
 for (const [channel, handler] of Object.entries(routes)) {

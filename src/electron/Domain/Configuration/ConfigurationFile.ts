@@ -7,7 +7,7 @@ export default abstract class ConfigurationFile {
         path: string,
         content: string
     ) {
-        if(!path) {
+        if (!path || path.trim() === '') {
             throw new Error('Path is required');
         }
 

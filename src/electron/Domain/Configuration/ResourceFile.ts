@@ -2,11 +2,11 @@ import ConfigurationFile from "./ConfigurationFile";
 
 export default class ResourceFile extends ConfigurationFile {
     constructor(path: string, content: string = '') {
+        super(path, content);
+
         if(!path.endsWith(".resource.yml")){
             throw new Error("Resource files must have a .resource.yml extension");
         }
-
-        super(path, content);
     }
 
     getName(): string {

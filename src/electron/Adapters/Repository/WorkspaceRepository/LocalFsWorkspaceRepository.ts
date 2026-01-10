@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import type iWorkspaceRepository from "../Domain/iWorkspaceRepository.ts";
+import type iWorkspaceRepository from '../../../Domain/iWorkspaceRepository';
 
 export default class LocalFsWorkspaceRepository implements iWorkspaceRepository {
     async workspaceExists(workspacePath: string): Promise<boolean> {

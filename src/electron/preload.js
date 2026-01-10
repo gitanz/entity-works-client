@@ -21,6 +21,10 @@ contextBridge.exposeInMainWorld('electronApi', {
       add: (workspacePath, fileName) => ipcRenderer.invoke('configuration.entities.add', workspacePath, fileName),
       rename: (workspacePath, fileName, newFileName) => ipcRenderer.invoke('configuration.entities.rename', workspacePath, fileName, newFileName),
       delete: (workspacePath, fileName) => ipcRenderer.invoke('configuration.entities.delete', workspacePath, fileName),
+    },
+
+    DBPalette: {
+      testConnection: (driver, host, port, username, password ) => ipcRenderer.invoke('configuration.DBPalette.testConnection', driver, host, port, username, password),
     }
   },
 });

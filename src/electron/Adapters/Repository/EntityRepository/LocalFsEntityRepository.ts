@@ -1,8 +1,9 @@
-import type ConfigurationFile from "../Domain/Configuration/ConfigurationFile.ts";
-import EntityFile from "../Domain/Configuration/EntityFile";
-import type iConfigurationFilesRepository from "../Domain/Configuration/iConfigurationFilesRepository.ts";
+
 import fs from "fs/promises";
 import path from "path";
+import type iConfigurationFilesRepository from "../../../Domain/Configuration/iConfigurationFilesRepository";
+import EntityFile from "../../../Domain/Configuration/EntityFile";
+import type ConfigurationFile from "../../../Domain/Configuration/ConfigurationFile";
 
 export default class LocalFsEntityRepository implements iConfigurationFilesRepository {
     async get(entityPath: string): Promise<EntityFile> {

@@ -1,8 +1,9 @@
-import type ConfigurationFile from "../Domain/Configuration/ConfigurationFile.ts";
-import ResourceFile from "../Domain/Configuration/ResourceFile";
-import type iConfigurationFilesRepository from "../Domain/Configuration/iConfigurationFilesRepository.ts";
+
 import fs from "fs/promises";
 import path from "path";
+import type iConfigurationFilesRepository from "../../../Domain/Configuration/iConfigurationFilesRepository";
+import ResourceFile from "../../../Domain/Configuration/ResourceFile";
+import type ConfigurationFile from "../../../Domain/Configuration/ConfigurationFile";
 
 export default class LocalFsResourceRepository implements iConfigurationFilesRepository {
     async get(resourcePath: string): Promise<ResourceFile> {

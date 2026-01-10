@@ -1,9 +1,9 @@
-import LocalFsWorkspaceRepository from "../Repository/LocalFsWorkspaceRepository";
-import LocalFsEntityRepository from "../Repository/LocalFsEntityRepository";
 import ShowAllEntities from "../Application/Entities/ShowAllEntities";
 import CreateNewEntity from "../Application/Entities/CreateNewEntity";
 import RenameEntity from '../Application/Entities/RenameEntity';
 import DeleteEntity from "../Application/Entities/DeleteEntity";
+import LocalFsWorkspaceRepository from "../Adapters/Repository/WorkspaceRepository/LocalFsWorkspaceRepository";
+import LocalFsEntityRepository from "../Adapters/Repository/EntityRepository/LocalFsEntityRepository";
 
 export default class EntityHandlers {
     async index({workspacePath}: {workspacePath: string}) {

@@ -1,22 +1,22 @@
+import mysql from 'mysql2/promise';
 import type { Connection } from "../../Domain/Database/Connection";
 import type iConnectionDriver from "../../Domain/Database/iConnectionDriver";
-import { Sequelize } from "sequelize";
 
 export default class MySQLConnectionDriver implements iConnectionDriver {
-    async testConnection(connection: Connection): Promise<boolean> {
-        const sequelize = new Sequelize('', connection.username, connection.password, {
-            host: connection.host,
-            port: connection.port,
-            dialect: 'mysql',
-        });
-
+    async testConnection(connectionDetails: Connection): Promise<boolean> {
+        
         try {
-            await sequelize.authenticate();
+            const connection = await mysql.createConnection({
+                host: connectionDetails.host,
+                port: connectionDetails.port,
+                user: connectionDetails.username,
+                password: connectionDetails.password
+            });
+            connection.end();
             return true;
         } catch (error) {
+            console.log("Connection failed:", error);
             return false;
-        } finally {
-            await sequelize.close();
         }
     }
 }

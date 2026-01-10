@@ -1,7 +1,7 @@
 import {useReducer, useState} from "react";
-import type {Nullable} from "../../../Types.ts";
 import {Box, Button, CloseButton, Dialog, Field, Input, Portal, Stack, VStack} from "@chakra-ui/react";
 import {LuPlus} from "react-icons/lu";
+import type { Nullable } from "../../../types";
 
 type Datasource = {
     name: string;
@@ -63,6 +63,12 @@ function datasourceReducer(state: Datasource, action: {type: string, payload: nu
 export default function DBPalette ()  {
     const [datasource, dispatchDatasourceReducer] = useReducer(datasourceReducer, initialDatasource);
     const [activatedDatasource, setActivatedDatasource] = useState<Nullable<Datasource>>(null);
+
+    async function testConnection(datasource: Datasource) {
+        const result = await window.electronApi.configuration.DBPalette.testConnection(datasource);
+        console.log('Connection test result:', result);
+    }
+
     return (
         <VStack>
             <Box width={'full'} padding={2.5}>
@@ -152,7 +158,7 @@ export default function DBPalette ()  {
                                         <Button variant="outline" size={'sm'}>Cancel</Button>
                                     </Dialog.ActionTrigger>
 
-                                    <Button variant={'outline'} size={'sm'} colorPalette={'yellow'}>Test</Button>
+                                    <Button variant={'outline'} size={'sm'} colorPalette={'yellow'} onClick={() => testConnection(datasource)}>Test</Button>
 
                                     <Button variant={'outline'} size={'sm'} colorPalette={'green'} onClick={() => setActivatedDatasource(datasource)}>Apply</Button>
                                 </Dialog.Footer>

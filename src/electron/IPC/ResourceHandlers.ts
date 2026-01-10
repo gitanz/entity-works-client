@@ -1,9 +1,9 @@
-import LocalFsWorkspaceRepository from "../Repository/LocalFsWorkspaceRepository";
-import LocalFsResourceRepository from "../Repository/LocalFsResourceRepository";
 import ShowAllResources from "../Application/Resources/ShowAllResources";
 import CreateNewResource from "../Application/Resources/CreateNewResource";
 import RenameResource from "../Application/Resources/RenameResource";
 import DeleteResource from "../Application/Resources/DeleteResource";
+import LocalFsWorkspaceRepository from "../Adapters/Repository/WorkspaceRepository/LocalFsWorkspaceRepository";
+import LocalFsResourceRepository from "../Adapters/Repository/ResourceRepository/LocalFsResourceRepository";
 
 interface IndexResourceParams {
     workspacePath: string;

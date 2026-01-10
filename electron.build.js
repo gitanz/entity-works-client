@@ -1,4 +1,5 @@
 import esbuild from 'esbuild';
+import { builtinModules } from 'module';
 
 esbuild.build({
     entryPoints: ['src/electron/main.ts'],
@@ -10,5 +11,10 @@ esbuild.build({
     sourcemap: true,
 
     // IMPORTANT for Electron
-    external: ['electron'],
+    external: [
+        ...builtinModules,
+        ...builtinModules.map(m => `node:${m}`),
+        'electron',
+        'mysql2',
+    ],
 }).catch(() => process.exit(1));

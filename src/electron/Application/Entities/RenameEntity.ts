@@ -1,8 +1,9 @@
 import path from "path";
 import type iWorkspaceRepository from "../../Domain/iWorkspaceRepository.ts";
 import type iConfigurationFilesRepository from "../../Domain/Configuration/iConfigurationFilesRepository.ts";
+import type { Application } from "../Application.ts";
 
-export default class RenameEntity {
+export default class RenameEntity implements Application<[string, string, string], void> {
     private workspaceRepository: iWorkspaceRepository;
     private entityRepository: iConfigurationFilesRepository;
 

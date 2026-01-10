@@ -1,8 +1,3 @@
-/**
- * Application contract
- *
- * @typedef {Object} Application
- *
- * @property {(...args: any[]) => Promise<void>} execute
- *   Executes the application for a workspace
- */
+export interface Application<TArgs extends any[] = any[], TResult = void> {
+    execute(...args: TArgs): Promise<TResult>;
+}

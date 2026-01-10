@@ -2,11 +2,9 @@ import path from "path";
 import EntityFile from "../../Domain/Configuration/EntityFile";
 import type iWorkspaceRepository from "../../Domain/iWorkspaceRepository.ts";
 import type iConfigurationFilesRepository from "../../Domain/Configuration/iConfigurationFilesRepository.ts";
+import type { Application } from "../Application.ts";
 
-/**
- * @implements {Application}
- */
-export default class CreateNewEntity {
+export default class CreateNewEntity implements Application<[string, string], void> {
 
     private workspaceRepository: iWorkspaceRepository;
     private entityRepository: iConfigurationFilesRepository;

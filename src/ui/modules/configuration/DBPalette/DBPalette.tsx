@@ -152,9 +152,9 @@ export default function DBPalette ()  {
                                         <Button variant="outline" size={'sm'}>Cancel</Button>
                                     </Dialog.ActionTrigger>
 
-                                    <Button variant={'outline'} size={'sm'} colorPalette={'yellow'}>Test Connection</Button>
+                                    <Button variant={'outline'} size={'sm'} colorPalette={'yellow'}>Test</Button>
 
-                                    <Button variant={'outline'} size={'sm'} colorPalette={'green'} onClick={() => setActivatedDatasource(datasource)}>Apply Datasource</Button>
+                                    <Button variant={'outline'} size={'sm'} colorPalette={'green'} onClick={() => setActivatedDatasource(datasource)}>Apply</Button>
                                 </Dialog.Footer>
 
                                 <Dialog.CloseTrigger asChild>

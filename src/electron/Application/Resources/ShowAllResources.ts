@@ -1,11 +1,9 @@
 import path from "path";
 import type iWorkspaceRepository from "../../Domain/iWorkspaceRepository.ts";
 import type iConfigurationFilesRepository from "../../Domain/Configuration/iConfigurationFilesRepository.ts";
+import type { Application } from "../Application.ts";
 
-/**
- * @implements {Application}
- */
-export default class ShowAllResources {
+export default class ShowAllResources implements Application<[string], Array<{ name: string; path: string }> > {
     private workspaceRepository: iWorkspaceRepository;
     private resourceRepository: iConfigurationFilesRepository;
 

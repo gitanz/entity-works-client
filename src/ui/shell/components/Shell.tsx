@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react"
 import Titlebar from "../layouts/Titlebar"
 import AppMenu from "../layouts/AppMenu";
 import Statusbar from "../layouts/Statusbar";
@@ -13,18 +12,13 @@ export default function Root() {
     const ActivatedModule = modules[activatedModuleId];
 
     return (
-        <>
-            <Layout>
-                <Titlebar>
-                </Titlebar>
-                <AppMenu></AppMenu>
-                <Box display="contents">
-                    <ModuleProvider id={activatedModuleId}>
-                        <ActivatedModule />    
-                    </ModuleProvider>
-                </Box>
-                <Statusbar>OK</Statusbar>
-            </Layout>
-        </>
+        <Layout>
+            <Titlebar></Titlebar>
+            <AppMenu></AppMenu>
+            <ModuleProvider id={activatedModuleId}>
+                <ActivatedModule />
+            </ModuleProvider>
+            <Statusbar>OK</Statusbar>
+        </Layout>
     )
 }

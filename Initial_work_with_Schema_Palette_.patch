@@ -1,0 +1,296 @@
+Subject: [PATCH] Initial work with Schema Palette.
+---
+Index: src/ui/modules/configuration/Configuration.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ui/modules/configuration/Configuration.tsx b/src/ui/modules/configuration/Configuration.tsx
+--- a/src/ui/modules/configuration/Configuration.tsx	(revision c27ebf0424409e60f931bb5140932d742b85bb77)
++++ b/src/ui/modules/configuration/Configuration.tsx	(revision dd85f9688a98b9a7342664534e7f8b4400bb7eea)
+@@ -5,6 +5,7 @@
+ import { FileExplorer } from "./Explorer/FileExplorer";
+ import { useModuleContext } from "../ModuleContext";
+ import { useEffect } from "react";
++import DBPalette from "./DBPalette/DBPalette.tsx";
+ 
+ export default function Configuration() {
+     
+@@ -46,32 +47,10 @@
+                     this is workspace
+                 </div>
+             </Module.Workspace>
+-            <Module.Drawer>
+-                <Tabs.Root defaultValue="members">
+-                    <Tabs.List>
+-                        <Tabs.Trigger value="members">
+-                        <LuUser />
+-                        Members
+-                        </Tabs.Trigger>
+-                        <Tabs.Trigger value="projects">
+-                        <LuFolder />
+-                        Projects
+-                        </Tabs.Trigger>
+-                        <Tabs.Trigger value="tasks">
+-                        <LuSquareCheck />
+-                        Settings
+-                        </Tabs.Trigger>
+-                    </Tabs.List>
+-                    <Tabs.Content value="members">Manage your team members</Tabs.Content>
+-                    <Tabs.Content value="projects">Manage your projects</Tabs.Content>
+-                    <Tabs.Content value="tasks">
+-                        Manage your tasks for freelancers
+-                    </Tabs.Content>
+-                    </Tabs.Root>
+-            </Module.Drawer>
+             <Module.Palette>
+                 <CompartmentBox.Box name="Palette">
+-                    <CompartmentBox.Compartment name="Schema">
++                    <CompartmentBox.Compartment name="Datasource">
++                        <DBPalette></DBPalette>
+                     </CompartmentBox.Compartment>
+                 </CompartmentBox.Box>
+             </Module.Palette>
+Index: src/ui/modules/configuration/DBPalette/DBPalette.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ui/modules/configuration/DBPalette/DBPalette.tsx b/src/ui/modules/configuration/DBPalette/DBPalette.tsx
+new file mode 100644
+--- /dev/null	(revision dd85f9688a98b9a7342664534e7f8b4400bb7eea)
++++ b/src/ui/modules/configuration/DBPalette/DBPalette.tsx	(revision dd85f9688a98b9a7342664534e7f8b4400bb7eea)
+@@ -0,0 +1,175 @@
++import {useReducer, useState} from "react";
++import type {Nullable} from "../../../Types.ts";
++import {Box, Button, CloseButton, Dialog, Field, Input, Portal, Stack, VStack} from "@chakra-ui/react";
++import {LuPlus} from "react-icons/lu";
++
++type Datasource = {
++    name: string;
++    driver: string;
++    host: string;
++    port: number;
++    username: string;
++    password: string;
++}
++
++const initialDatasource: Datasource = {
++    name: '',
++    driver: '',
++    host: '',
++    port: 3306,
++    username: '',
++    password: ''
++};
++
++function datasourceReducer(state: Datasource, action: {type: string, payload: number|string}): Datasource {
++    switch(action.type) {
++        case 'set_name':
++            return {
++                ...state,
++                name: action.payload as string
++            };
++
++        case 'set_driver':
++            return {
++                ...state,
++                driver: action.payload as string
++            };
++        case 'set_host':
++            return {
++                ...state,
++                host: action.payload as string
++            };
++        case 'set_port':
++            return {
++                ...state,
++                port: action.payload as number
++            };
++        case 'set_username':
++            return {
++                ...state,
++                username: action.payload as string
++            }
++        case 'set_password':
++            return {
++                ...state,
++                password: action.payload as string
++            };
++
++        default:
++            return state;
++    }
++}
++
++export default function DBPalette ()  {
++    const [datasource, dispatchDatasourceReducer] = useReducer(datasourceReducer, initialDatasource);
++    const [activatedDatasource, setActivatedDatasource] = useState<Nullable<Datasource>>(null);
++    return (
++        <VStack>
++            <Box width={'full'} padding={2.5}>
++                <Dialog.Root placement={'center'}>
++                    <Dialog.Trigger asChild>
++                        <Button variant='outline' width={'full'} size='sm'> <LuPlus></LuPlus> Manage </Button>
++                    </Dialog.Trigger>
++
++                    <Portal>
++                        <Dialog.Backdrop />
++                        <Dialog.Positioner>
++                            <Dialog.Content>
++                                <Dialog.Header>
++                                    <Dialog.Title>Add Datasources</Dialog.Title>
++                                </Dialog.Header>
++
++                                <Dialog.Body>
++                                    <Stack gap={4}>
++                                        <Field.Root required orientation={'horizontal'}>
++                                            <Field.Label>
++                                                Name <Field.RequiredIndicator />
++                                            </Field.Label>
++                                            <Input
++                                                name={'connectionName'}
++                                                id={'connectionName'}
++                                                value={datasource.name}
++                                                onChange={(e) => dispatchDatasourceReducer({type: 'set_name', payload: e.target.value})}
++                                            />
++                                        </Field.Root>
++                                        <Field.Root required orientation={'horizontal'}>
++                                            <Field.Label>
++                                                Driver <Field.RequiredIndicator />
++                                            </Field.Label>
++                                            <Input
++                                                name={'connectionDriver'}
++                                                id={'connectionDriver'}
++                                                value={datasource.driver}
++                                                onChange={(e) => dispatchDatasourceReducer({type: 'set_driver', payload: e.target.value})}/>
++                                        </Field.Root>
++                                        <Field.Root required orientation={'horizontal'}>
++                                            <Field.Label>
++                                                Host <Field.RequiredIndicator />
++                                            </Field.Label>
++                                            <Input
++                                                name={'connectionDriver'}
++                                                id={'connectionDriver'}
++                                                value={datasource.host}
++                                                onChange={(e) => dispatchDatasourceReducer({type: 'set_host', payload: e.target.value})}/>
++                                        </Field.Root>
++                                        <Field.Root required orientation={'horizontal'}>
++                                            <Field.Label>
++                                                Port <Field.RequiredIndicator />
++                                            </Field.Label>
++                                            <Input
++                                                name={'connectionDriver'}
++                                                id={'connectionDriver'}
++                                                value={datasource.port}
++                                                onChange={(e) => dispatchDatasourceReducer({type: 'set_port', payload: e.target.value})}/>
++                                        </Field.Root>
++                                        <Field.Root required orientation={'horizontal'}>
++                                            <Field.Label>
++                                                Username <Field.RequiredIndicator />
++                                            </Field.Label>
++                                            <Input
++                                                name={'connectionDriver'}
++                                                id={'connectionDriver'}
++                                                value={datasource.username}
++                                                onChange={(e) => dispatchDatasourceReducer({type: 'set_username', payload: e.target.value})}/>
++                                        </Field.Root>
++                                        <Field.Root required orientation={'horizontal'}>
++                                            <Field.Label>
++                                                Password <Field.RequiredIndicator />
++                                            </Field.Label>
++                                            <Input
++                                                name={'connectionDriver'}
++                                                id={'connectionDriver'}
++                                                value={datasource.password}
++                                                onChange={(e) => dispatchDatasourceReducer({type: 'set_password', payload: e.target.value})}
++                                            />
++                                        </Field.Root>
++                                    </Stack>
++
++                                </Dialog.Body>
++
++                                <Dialog.Footer>
++                                    <Dialog.ActionTrigger asChild>
++                                        <Button variant="outline" size={'sm'}>Cancel</Button>
++                                    </Dialog.ActionTrigger>
++
++                                    <Button variant={'outline'} size={'sm'} colorPalette={'yellow'}>Test Connection</Button>
++
++                                    <Button variant={'outline'} size={'sm'} colorPalette={'green'} onClick={() => setActivatedDatasource(datasource)}>Apply Datasource</Button>
++                                </Dialog.Footer>
++
++                                <Dialog.CloseTrigger asChild>
++                                    <CloseButton size={'sm'}/>
++                                </Dialog.CloseTrigger>
++                            </Dialog.Content>
++                        </Dialog.Positioner>
++
++                    </Portal>
++                </Dialog.Root>
++            </Box>
++
++
++
++        </VStack>
++
++    );
++}
+\ No newline at end of file
+Index: src/ui/modules/configuration/Explorer/FileExplorer.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ui/modules/configuration/Explorer/FileExplorer.tsx b/src/ui/modules/configuration/Explorer/FileExplorer.tsx
+--- a/src/ui/modules/configuration/Explorer/FileExplorer.tsx	(revision c27ebf0424409e60f931bb5140932d742b85bb77)
++++ b/src/ui/modules/configuration/Explorer/FileExplorer.tsx	(revision dd85f9688a98b9a7342664534e7f8b4400bb7eea)
+@@ -185,7 +185,7 @@
+                                 <Dialog.ActionTrigger asChild>
+                                     <Button variant="outline" onClick={resetDeleteFile}>Cancel</Button>
+                                 </Dialog.ActionTrigger>
+-                                <Button colorPalette="red" onClick={() => {
++                                <Button variant={'outline'} colorPalette="red" onClick={() => {
+                                         if (!deleteFileState) return;
+                                         deleteFile(deleteFileState.fileName)
+                                     }
+Index: src/ui/shell/components/Shell.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ui/shell/components/Shell.tsx b/src/ui/shell/components/Shell.tsx
+--- a/src/ui/shell/components/Shell.tsx	(revision c27ebf0424409e60f931bb5140932d742b85bb77)
++++ b/src/ui/shell/components/Shell.tsx	(revision dd85f9688a98b9a7342664534e7f8b4400bb7eea)
+@@ -1,4 +1,3 @@
+-import { Box } from "@chakra-ui/react"
+ import Titlebar from "../layouts/Titlebar"
+ import AppMenu from "../layouts/AppMenu";
+ import Statusbar from "../layouts/Statusbar";
+@@ -13,18 +12,13 @@
+     const ActivatedModule = modules[activatedModuleId];
+ 
+     return (
+-        <>
+-            <Layout>
+-                <Titlebar>
+-                </Titlebar>
+-                <AppMenu></AppMenu>
+-                <Box display="contents">
+-                    <ModuleProvider id={activatedModuleId}>
+-                        <ActivatedModule />    
+-                    </ModuleProvider>
+-                </Box>
+-                <Statusbar>OK</Statusbar>
+-            </Layout>
+-        </>
++        <Layout>
++            <Titlebar></Titlebar>
++            <AppMenu></AppMenu>
++            <ModuleProvider id={activatedModuleId}>
++                <ActivatedModule />
++            </ModuleProvider>
++            <Statusbar>OK</Statusbar>
++        </Layout>
+     )
+ }

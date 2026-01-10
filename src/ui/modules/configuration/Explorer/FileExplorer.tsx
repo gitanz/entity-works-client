@@ -185,7 +185,7 @@ export function FileExplorer({type}: {type: keyof ExplorerType}) {
                                 <Dialog.ActionTrigger asChild>
                                     <Button variant="outline" onClick={resetDeleteFile}>Cancel</Button>
                                 </Dialog.ActionTrigger>
-                                <Button colorPalette="red" onClick={() => {
+                                <Button variant={'outline'} colorPalette="red" onClick={() => {
                                         if (!deleteFileState) return;
                                         deleteFile(deleteFileState.fileName)
                                     }
